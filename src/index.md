@@ -56,30 +56,12 @@ src
 │   ├── components
 │   │   ├── Header
 │   │   ├── Footer
-│   │   ├── Button├── button
-|    └── CardButton.tsxut
+│   │   └── Container
 |   ├── captcha   
 |   |   └── CaptchaProvider.tsx
 │   └── store
 │       └── AppStore 
 └── index.tsx
-
-src
-├── config
-│   └── routes.ts
-│── app
-│   ├── home
-│   │   └── Home.tsx
-│   ├── admin
-│   │   └── Admin.tsx
-│   └── course
-│   │   └── Course.tsx
-│   └── App.tsx
-├── shared
-│   ├── header
-│   ├── footer
-│   └── container
-└── index.tsx (1)
 
 ```
 <h2 id="start-small">Zacznij prosto!</h2>
@@ -226,9 +208,67 @@ src
 └── index.tsx  (1)
 ```
 
+
+
 <h2 id="lets-complicate">Komplikujemy</h2>
 
 
+O ile podział na jakim zakończyliśmy jest jak najbardziej wykonalny i sprawdza się w praktyce przy mniejszych projektach (np. komponentów w architekturze mikro-frontendowej) o tyle, no właśnie, już przy nieco większych taka struktura zaczyna mocno doskwierać.
+
+Dodajmy do naszej aplikacji nową funkcjonalność: "wyświetlanie struktury folderów, z której korzysta dany widok". Komponent ten ma się wyświetlać na każdej stronie i w zależności od aktualnego widoku ma aktualizować swój stan.
+
+<img src="./assets/images/react-folder-structure-2.svg" />
+
+Dodajemy więc nowy folder <i>tree (1)</i>
+
+```md
+src
+├── config
+│   └── routes.ts
+│── app  
+│   ├── home
+│   ├── admin
+│   ├── course
+│   ├── header
+│   ├── footer
+│   ├── tree  (1)
+│   └── App.tsx
+└── index.tsx
+```
+
+który będzie miał następującą strukturę: 
+
+```md
+// struktura zagnieżdżona "nested"
+
+tree
+├── viewer
+|    └── TreeViewer.tsx
+├── reducer
+│   ├── treeReducer.test.ts
+│   └── treeReducer.ts
+└── TreeContext.tsx
+```
+
+Zatrzymajmy tu się na moment, ponieważ takie podejście mimo, że bardzo logiczne wbrew pozorom nie jest aż tak oczywiste jakby się mogło wydawać. Właśnie zamknęliśmy całą nową funkcjonalność w 1 folderze. Mamy tu ze sobą context, reducer oraz komponent UI. Być może wcześniej ktoś mógł się spotkać z taką konwencją, promowaną przez niektórych użytkowników Reduxa:
+
+```md
+// struktura płaska "flat"
+
+│── components
+|   └── treeViewer
+|       └── TreeViewer.tsx
+├── store
+│   ├── action
+│   |   └── treeAction.tsx
+│   ├── reducer
+│   │   ├── treeReducer.test.ts
+│   │   └── treeReducer.ts
+│   └── context
+|       └── TreeContext.tsx
+```
+
+Chyba nikogo nie muszę przekonywać o wyższości pierwszej, zagnieżdżonej w folderze "domenowym" struktury nad drugą, "płaską". Ale gdyby ktoś miał wątpliwości - nawigacją po płaskiej strukturze folderów nazwanych od ich implementacyjnych właściwości: <i>reducer, store, action, components</i> będzie w tym wypadku niewątpliwie bardziej czasochłonna.
 
 
 <h2 id="sources">Źródła</h2>
