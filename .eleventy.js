@@ -1,5 +1,6 @@
 const fs = require('fs')
 const pluginRss = require('@11ty/eleventy-plugin-rss')
+const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const pluginNavigation = require('@11ty/eleventy-navigation')
 const markdownIt = require('markdown-it')
 
@@ -16,6 +17,7 @@ module.exports = function (eleventyConfig) {
    */
   eleventyConfig.addPlugin(pluginRss)
   eleventyConfig.addPlugin(pluginNavigation)
+  eleventyConfig.addPlugin(syntaxHighlight)
 
   /**
    * Add filters
