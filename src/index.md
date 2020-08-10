@@ -1,14 +1,15 @@
 ---
 layout: page
-title: Struktura folderów aplikacji w React
+title: Struktura folderów aplikacji SPA w React
 eleventyNavigation:
   key: Home
 ---
 
-Poniżej przedstawiam zopiniowaną i subiektywną strukturę folderów aplikacji Reactowej. W dalszej części wpisu postaram się przedstawić argumenty i ścieżkę, która doprowadziła mnie do takiej architektury.
+W tym wpisie chciałem podzielić się moją mocno zopiniowaną i subiektywną strukturę folderów aplikacji Reactowej. W dalszej części postaram się przedstawić argumenty i ścieżkę, która doprowadziła mnie do takiej architektury. 
 
 <a href="#start-small">1. Zacznij prosto!</a>
 <a href="#lets-complicate">2. Komplikujemy</a>
+<a href="#app-and-shared">3. Foldery app i shared</a>
 
 ```md
 src
@@ -212,14 +213,11 @@ src
 
 <h2 id="lets-complicate">Komplikujemy</h2>
 
-
-O ile podział na jakim zakończyliśmy jest jak najbardziej wykonalny i sprawdza się w praktyce przy mniejszych projektach (np. komponentów w architekturze mikro-frontendowej) o tyle, no właśnie, już przy nieco większych taka struktura zaczyna mocno doskwierać.
-
-Dodajmy do naszej aplikacji nową funkcjonalność: "wyświetlanie struktury folderów, z której korzysta dany widok". Komponent ten ma się wyświetlać na każdej stronie i w zależności od aktualnego widoku ma aktualizować swój stan.
+Dodajmy do naszej aplikacji nową funkcjonalność  polegającą na wyświetlaniu struktury folderów, ( tych z których korzysta dany widok) w postaci drzewa katalogów. Ten współdzielony komponent - będzie się wyświetlać na każdej stronie i w zależności od aktualnego widoku będzie aktualizować swój stan i podświetlać inne foldery oraz pliki.
 
 <img src="./assets/images/react-folder-structure-2.svg" />
 
-Dodajemy więc nowy folder <i>tree (1)</i>
+Dodajemy więc nowy folder i nazwijmy go <i>tree (1)</i>
 
 ```md
 src
@@ -236,10 +234,10 @@ src
 └── index.tsx
 ```
 
-który będzie miał następującą strukturę: 
+będą się na niego składać context, reducer i komponent UI. Przyjrzyjmy się pierwszej propozycji "per feature":
 
 ```md
-// struktura zagnieżdżona "nested"
+// struktura "per feature"
 
 tree
 ├── viewer
@@ -250,17 +248,15 @@ tree
 └── TreeContext.tsx
 ```
 
-Zatrzymajmy tu się na moment, ponieważ takie podejście mimo, że bardzo logiczne wbrew pozorom nie jest aż tak oczywiste jakby się mogło wydawać. Właśnie zamknęliśmy całą nową funkcjonalność w 1 folderze. Mamy tu ze sobą context, reducer oraz komponent UI. Być może wcześniej ktoś mógł się spotkać z taką konwencją, promowaną przez niektórych użytkowników Reduxa:
+i zatrzymajmy się tu na moment, ponieważ takie podejście mimo, że bardzo logiczne wbrew pozorom nie jest aż tak oczywiste jakby się mogło wydawać. Właśnie zamknęliśmy całą nową funkcjonalność w jednym folderze. Dla rozróżnienia spójrzmy na przeciwstawną koncepcję, promowaną swego czasu przez niektórych użytkowników <i>reduxa</i>:
 
 ```md
-// struktura płaska "flat"
+// struktura "per file type"
 
 │── components
 |   └── treeViewer
 |       └── TreeViewer.tsx
 ├── store
-│   ├── action
-│   |   └── treeAction.tsx
 │   ├── reducer
 │   │   ├── treeReducer.test.ts
 │   │   └── treeReducer.ts
@@ -268,8 +264,20 @@ Zatrzymajmy tu się na moment, ponieważ takie podejście mimo, że bardzo logic
 |       └── TreeContext.tsx
 ```
 
-Chyba nikogo nie muszę przekonywać o wyższości pierwszej, zagnieżdżonej w folderze "domenowym" struktury nad drugą, "płaską". Ale gdyby ktoś miał wątpliwości - nawigacją po płaskiej strukturze folderów nazwanych od ich implementacyjnych właściwości: <i>reducer, store, action, components</i> będzie w tym wypadku niewątpliwie bardziej czasochłonna.
+Chyba już na pierwszy rzut oka widać przewagę podejścia "per feature" nad podejściem "per file type". Jednak gdyby ktoś miał wątpliwości, postaram się wypunktować te zalety, które ja osobiście dostrzegam:
 
+<ol>
+ <li>nawigacją po płaskiej strukturze folderów w stylu: <i>reducer, store, action, components</i> będzie nieco mniej intuicyjna niż posiadanie jednego katalogu,</li> 
+ <li>wraz z dodawaniem kolejnych reducerów, akcji i contextów zajmuje to jeszcze więcej czasu,</li> 
+ <li>podejście "per feature" pozwala szybciej ocenić poziom skomplikowania danej funkcjonalności chociazby na podstawie ilości folderów,</li>
+ <li>mniej generyczne nazewnictwo oddziałuje lepiej na naszą percepcję i skile poznawcze</li>
+ </ol> 
+
+No ok, to już wiemy jak budować strukturę plików wokół "ficzerów" ale co z architekturą całości? Nadal tkwimy ze wszystkimi folderami w jednym miejscu, w <i>app</i>.
+
+<h2 id="app-and-shared">Foldery app i shared</h2>
+
+O ile podział na którym się zatrzymaliśmy jest jak najbardziej sensowny i sprawdza się w praktyce przy mniejszych projektach (np. komponentów w architekturze mikro-frontendowej) o tyle, no właśnie, już przy nieco większych taka struktura zaczyna być problematyczna. Przekonajmy się dlaczego.
 
 <h2 id="sources">Źródła</h2>
 
