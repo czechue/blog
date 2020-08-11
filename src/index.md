@@ -10,6 +10,7 @@ W tym wpisie chciałem podzielić się moją mocno zopiniowaną i subiektywną s
 <a href="#start-small">1. Zacznij prosto!</a>
 <a href="#lets-complicate">2. Komplikujemy</a>
 <a href="#app-and-shared">3. Foldery app i shared</a>
+<a href="#sources">4. Źródła</a>
 
 ```md
 src
@@ -215,6 +216,8 @@ src
 
 Dodajmy do naszej aplikacji nową funkcjonalność  polegającą na wyświetlaniu struktury folderów, ( tych z których korzysta dany widok) w postaci drzewa katalogów. Ten współdzielony komponent - będzie się wyświetlać na każdej stronie i w zależności od aktualnego widoku będzie aktualizować swój stan i podświetlać inne foldery oraz pliki.
 
+<to wkleić gifa z DEMO apka>
+
 <img src="./assets/images/react-folder-structure-2.svg" />
 
 Dodajemy więc nowy folder i nazwijmy go <i>tree (1)</i>
@@ -278,6 +281,29 @@ No ok, to już wiemy jak budować strukturę plików wokół "ficzerów" ale co 
 <h2 id="app-and-shared">Foldery app i shared</h2>
 
 O ile podział na którym się zatrzymaliśmy jest jak najbardziej sensowny i sprawdza się w praktyce przy mniejszych projektach (np. komponentów w architekturze mikro-frontendowej) o tyle, no właśnie, już przy nieco większych taka struktura zaczyna być problematyczna. Przekonajmy się dlaczego.
+
+```md
+src
+├── config
+│   └── routes.ts
+│── app  
+│   ├── home
+│   ├── admin
+│   ├── course
+│   ├── header
+│   ├── footer
+│   ├── tree
+│   └── App.tsx
+└── index.tsx
+```
+
+<img src="./assets/images/react-folder-structure-3.svg" />
+
+
+
+
+
+
 
 <h2 id="sources">Źródła</h2>
 
